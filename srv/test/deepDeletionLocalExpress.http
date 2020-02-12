@@ -1,0 +1,26 @@
+### Read Shippers expanded to Carriers
+GET http://localhost:3000/odata/v4/CatalogService/Shippers?$expand=ToCarriers
+### Read single Shipper
+GET http://localhost:3000/odata/v4/CatalogService/Shippers(3068b394-47e1-4b3c-8938-e0e8047df77e)?$expand=ToCarriers
+### deepDelete
+DELETE http://localhost:3000/odata/v4/CatalogService/Shippers(3068b394-47e1-4b3c-8938-e0e8047df77e)
+### Read Carriers
+GET http://localhost:3000/odata/v4/CatalogService/Carriers
+### Deep Create
+POST http://localhost:3000/odata/v4/CatalogService/Shippers
+Content-Type: application/json
+
+{
+    "UUID": "3068b394-47e1-4b3c-8938-e0e8047df77e",
+    "Company": "DHL",
+    "ToCarriers": [
+    {
+        "UUID": "1cec0ccb-ac08-46b9-b05b-7213df4b7e48",
+        "Shipper_UUID": "3068b394-47e1-4b3c-8938-e0e8047df77e",
+        "Name": "DHL"
+    }
+    ]
+}
+
+### Delete Carrier
+DELETE http://localhost:3000/odata/v4/CatalogService/Carriers(1cec0ccb-ac08-46b9-b05b-7213df4b7e48)
