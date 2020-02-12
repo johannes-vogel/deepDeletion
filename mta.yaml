@@ -1,0 +1,80 @@
+ID: deepDeletion
+_schema-version: '2.1'
+parameters:
+  deploy_mode: html5-repo
+version: 0.0.1
+modules:
+  - name: deepDeletion_appRouter
+    type: approuter.nodejs
+    path: deepDeletion_appRouter
+    parameters:
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: deepDeletion_html5_repo_runtime
+      - name: srv_api
+        group: destinations
+        properties:
+          forwardAuthToken: true
+          name: srv_api
+          url: '~{url}'
+      - name: uaa_deepDeletion
+  - name: deepDeletion_ui_deployer
+    type: com.sap.html5.application-content
+    path: deepDeletion_ui_deployer
+    requires:
+      - name: deepDeletion_html5_repo_host
+    build-parameters:
+      requires:
+        - name: manage-Shippers
+          artifacts:
+            - './*'
+          target-path: resources/manage-Shippers
+  - name: deepDeletion-db
+    type: hdb
+    path: db
+    parameters:
+      memory: 256M
+      disk-quota: 256M
+    requires:
+      - name: deepDeletion-db-hdi-container
+  - name: deepDeletion-srv
+    type: nodejs
+    path: srv
+    parameters:
+      memory: 512M
+      disk-quota: 256M
+    provides:
+      - name: srv_api
+        properties:
+          url: '${default-url}'
+    requires:
+      - name: deepDeletion-db-hdi-container
+  - name: manage-Shippers
+    type: html5
+    path: manage-Shippers
+    build-parameters:
+      builder: grunt
+      supported-platforms: []
+      build-result: dist
+resources:
+  - name: deepDeletion_html5_repo_runtime
+    parameters:
+      service-plan: app-runtime
+      service: html5-apps-repo
+    type: org.cloudfoundry.managed-service
+  - name: deepDeletion_html5_repo_host
+    parameters:
+      service-plan: app-host
+      service: html5-apps-repo
+    type: org.cloudfoundry.managed-service
+  - name: deepDeletion-db-hdi-container
+    type: com.sap.xs.hdi-container
+    properties:
+      hdi-container-name: '${service-name}'
+  - name: uaa_deepDeletion
+    parameters:
+      path: ./xs-security.json
+      service-plan: application
+      service: xsuaa
+    type: org.cloudfoundry.managed-service

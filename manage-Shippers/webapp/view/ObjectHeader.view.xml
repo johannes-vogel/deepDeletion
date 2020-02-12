@@ -1,0 +1,94 @@
+<mvc:View
+		id="web.manage-Shippers.view.ObjectHeader"
+		controllerName="web.manage-Shippers.controller.ObjectHeader"
+		xmlns="sap.m"
+		xmlns:mvc="sap.ui.core.mvc"
+		xmlns:form="sap.ui.layout.form"
+		xmlns:core="sap.ui.core">
+	<Panel id="_IDEGen_panel0" width="100%">
+		<content>
+			<form:SimpleForm
+				layout="ColumnLayout"
+				columnsM="2"
+				columnsL="3"
+				columnsXL="4">
+				<form:content>
+					
+                    <core:Title text="{i18n>General}" />
+                    <Label text="{i18n>Company}" labelFor="companyInput"/>
+					<Input class="sapUiSmallMarginBottom" value="{Company}" liveChange="setLiveChanges"/>
+					
+					<Label text="{i18n>CompanyId}" labelFor="companyIdInput"/>
+					<Input class="sapUiSmallMarginBottom" value="{CompanyId}" liveChange="setLiveChanges"/>
+					
+                    <Label text="{i18n>Address}" labelFor="addressInput"/>
+					<Input class="sapUiSmallMarginBottom" value="{Address1}" liveChange="setLiveChanges"/>
+								
+					<Label text = "{i18n>City}" labelFor="cityInput"/>
+					<Input
+						id="cityInput"
+						class="sapUiSmallMarginBottom"
+						type="Text"
+						placeholder="Enter City ..."
+						valueStateText="City must be 1 to 40 Characters long"
+						value="{
+							path : 'City',
+							type : 'sap.ui.model.type.String',
+							constraints : {
+								minLength: 1,
+								maxLength: 40
+							}
+						}"
+						liveChange="setLiveChanges"/>
+					
+					<Label text = "{i18n>Country}" labelFor="countryInput"/>
+					<Input
+						id="countryInput"
+						class="sapUiSmallMarginBottom"
+						type="Text"
+						placeholder="Enter Country ..."
+						valueStateText="Country must be 2 Characters"
+						value="{
+							path : 'Country',
+							type : 'sap.ui.model.type.String',
+							constraints : {
+								minLength: 2,
+								maxLength: 2
+							}
+						}"
+						liveChange="setLiveChanges"/>
+					
+					<Label text="{i18n>Email}" labelFor="emailInput"/>
+					<Input
+						id="emailInput"
+						class="sapUiSmallMarginBottom"
+						type="Email"
+						placeholder="Enter E-Mail ..."
+						valueStateText="E-Mail must be a valid email address."
+						value="{path : 'Email', type : '.customEMailType'}"
+						liveChange="setLiveChanges"/>
+					
+					<Label text = "{i18n>Id}"/>
+					<Input class="sapUiSmallMarginBottom" value = "{Id}" liveChange="setLiveChanges"/>
+					
+					<Label text = "{i18n>Name}"/>
+					<Input class="sapUiSmallMarginBottom" value = "{Name}" liveChange="setLiveChanges"/>
+					
+					<Label text = "{i18n>Phone}"/>
+					<Input class="sapUiSmallMarginBottom" value = "{Phone}" liveChange="setLiveChanges"/>
+					
+					<Label text = "{i18n>PostalCode}"/>
+					<Input class="sapUiSmallMarginBottom" value = "{PostalCode}" liveChange="setLiveChanges"/>
+					
+					<Label text = "{i18n>StateProvince}"/>
+					<Input class="sapUiSmallMarginBottom" value = "{StateProvince}" liveChange="setLiveChanges"/>
+					
+					<Label text = "{i18n>Symbol}"/>
+					<Input class="sapUiSmallMarginBottom" value = "{Symbol}" liveChange="setLiveChanges"/>
+					
+				</form:content>
+			</form:SimpleForm>
+			
+		</content>
+	</Panel>
+</mvc:View>

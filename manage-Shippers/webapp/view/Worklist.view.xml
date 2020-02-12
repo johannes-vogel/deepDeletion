@@ -1,0 +1,122 @@
+<mvc:View
+	controllerName="web.manage-Shippers.controller.Worklist"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc">
+	<Shell>
+		<App busy="{appView>/busy}" class="sapUiSizeCompact">
+			<pages>
+				<Page title="{i18n>appTitle}">
+					<headerContent>
+						<Button
+							id="resetChangesButton"
+							text="{i18n>resetChangesButtonText}"
+							enabled="{= !${appView>/hasUIChanges}}"
+							press="onResetDataSource"
+							type="Emphasized">
+						</Button>
+					</headerContent>
+					<content>
+						<Table
+							id="shipperList"
+							growing="true"
+							growingThreshold="10"
+							items="{
+								path: '/Shippers',
+								parameters: {
+									$count: true,
+									$$updateGroupId : 'ShipperGroup'
+								}
+							}"
+							mode="SingleSelectLeft">
+							<headerToolbar>
+								<OverflowToolbar>
+									<content>
+										<ToolbarSpacer/>
+										<SearchField
+											id="searchField"
+											width="20%"
+											placeholder="{i18n>searchFieldPlaceholder}"
+											enabled="{= !${appView>/hasUIChanges}}"
+											search=".onSearch"/>
+										<Button
+											id="addShipperButton"
+											icon="sap-icon://add"
+											tooltip="{i18n>createButtonText}"
+											press=".onCreate">
+											<layoutData>
+												<OverflowToolbarLayoutData priority="NeverOverflow"/>
+											</layoutData>
+										</Button>
+										<Button
+											id="deleteShipperButton"
+											icon="sap-icon://delete"
+											tooltip="{i18n>deleteButtonText}"
+											press=".onDelete">
+											<layoutData>
+												<OverflowToolbarLayoutData priority="NeverOverflow"/>
+											</layoutData>
+										</Button>
+										<Button
+											id="refreshShippersButton"
+											icon="sap-icon://refresh"
+											enabled="{= !${appView>/hasUIChanges}}"
+											tooltip="{i18n>refreshButtonText}"
+											press=".onRefresh"/>
+										<Button
+											id="sortShipperssButton"
+											icon="sap-icon://sort"
+											enabled="{= !${appView>/hasUIChanges}}"
+											tooltip="{i18n>sortButtonText}"
+											press=".onSort"/>
+									</content>
+								</OverflowToolbar>
+							</headerToolbar>
+							<columns>
+								<Column id="shipperColumn0">
+									<Text id="CompanyLabelText" text="{i18n>CompanyLabelText}"/>
+								</Column>
+								<Column id="shipperColumn1">
+									<Text id="symbolLabelText" text="{i18n>symbolLabelText}"/>
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem id="shipperColumnListItem" type="Navigation" press=".onPress">
+									<cells>
+										<Input 
+											id="shipperCompany"
+											value="{Company}"
+											valueLiveUpdate="true"
+											liveChange=".onInputChange"/>
+									</cells>
+									<cells>
+										<Input 
+											id="shipperSymbol"
+											value="{Symbol}"
+											valueLiveUpdate="true"
+											liveChange=".onInputChange"/>
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</content>
+					<footer>
+						<Toolbar id="worklistToolbar" visible="{appView>/hasUIChanges}">
+							<ToolbarSpacer id="worklistToolbarSpacer" />
+							<Button
+								id="saveButton"
+								type="Emphasized"
+								text="{i18n>saveButtonText}"
+								enabled="{= ${message>/}.length === 0 &amp;&amp; ${appView>/hasUIChanges} === true }"
+								press=".onSave"/>
+							<Button
+								id="doneButton"
+								text="{i18n>cancelButtonText}"
+								press=".onResetChanges"/>
+						</Toolbar>
+					</footer>
+				</Page>
+			</pages>
+		</App>
+	</Shell>
+</mvc:View>

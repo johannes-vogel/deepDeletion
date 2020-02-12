@@ -1,0 +1,10 @@
+{
+  "authenticationMethod": "none",
+  "routes": [
+  	{
+		"source": "/odata/v4/(.*)",
+		"destination": "srv_api",
+		"csrfProtection": false,
+		"authenticationType": "none"
+	}]
+}

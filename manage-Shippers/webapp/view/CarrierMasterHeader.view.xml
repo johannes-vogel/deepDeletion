@@ -1,0 +1,66 @@
+<mvc:View
+		id="web.manage-Shippers.view.CarrierMasterHeader"
+		controllerName="web.manage-Shippers.controller.CarrierMasterHeader"
+		xmlns="sap.m"
+		xmlns:mvc="sap.ui.core.mvc"
+		xmlns:form="sap.ui.layout.form"
+		xmlns:core="sap.ui.core">
+	<Panel id="_IDEGen_panel0" width="100%">
+		<content>
+			<form:SimpleForm
+				layout="ColumnLayout"
+				columnsM="2"
+				columnsL="3"
+				columnsXL="4">
+				<form:content>
+					
+                    <core:Title text="{i18n>General}" />
+                    <Label text="{i18n>AdapterRegistrationId}" labelFor="AdapterRegistrationIdInput"/>
+					<Input class="sapUiSmallMarginBottom" value="{AdapterRegistrationId}" liveChange="setLiveChanges"/>
+					
+					<Label text="{i18n>CompanyId}" labelFor="companyIdInput"/>
+					<Input class="sapUiSmallMarginBottom" value="{CompanyId}" liveChange="setLiveChanges"/>
+					
+                    <Label text="{i18n>Id}" labelFor="idInput"/>
+					<Input class="sapUiSmallMarginBottom" value="{Id}" liveChange="setLiveChanges"/>
+								
+					<Label text = "{i18n>Name}" labelFor="NameInput"/>
+					<Input
+						id="NameInput"
+						class="sapUiSmallMarginBottom"
+						type="Text"
+						placeholder="Carrier Name ..."
+						valueStateText="Carrier must be 1 to 40 Characters long"
+						value="{
+							path : 'Name',
+							type : 'sap.ui.model.type.String',
+							constraints : {
+								minLength: 1,
+								maxLength: 40
+							}
+						}"
+						liveChange="setLiveChanges"/>
+					
+					<Label text = "{i18n>Symbol}" labelFor="SymbolInput"/>
+					<Input
+						id="SymbolInput"
+						class="sapUiSmallMarginBottom"
+						type="Text"
+						placeholder="Enter Carrier Symbol ..."
+						valueStateText="Country must be 1-40 Characters"
+						value="{
+							path : 'Symbol',
+							type : 'sap.ui.model.type.String',
+							constraints : {
+								minLength: 1,
+								maxLength: 40
+							}
+						}"
+						liveChange="setLiveChanges"/>
+					
+				</form:content>
+			</form:SimpleForm>
+			
+		</content>
+	</Panel>
+</mvc:View>

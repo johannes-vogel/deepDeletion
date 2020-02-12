@@ -1,0 +1,92 @@
+<mvc:View
+	controllerName="web.manage-Shippers.controller.Object"
+	xmlns="sap.uxap"
+	xmlns:m="sap.m"
+	xmlns:f="sap.f"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:l="sap.ui.layout"
+	xmlns:mvc="sap.ui.core.mvc">
+	<ObjectPageLayout
+		id="ObjectPageLayout"
+		showTitleInHeaderContent="true"
+		alwaysShowContentHeader="false"
+		preserveHeaderStateOnScroll="false"
+		headerContentPinnable="true"
+		isChildPage="true"
+		upperCaseAnchorBar="false">
+		
+		<headerTitle>
+			<ObjectPageDynamicHeaderTitle>
+				
+				<expandedHeading>
+					<m:FlexBox wrap="Wrap" fitContainer="true" alignItems="Center">
+						<m:FlexBox wrap="NoWrap" fitContainer="true" alignItems="Center" class="sapUiTinyMarginEnd">
+							<f:Avatar
+								src="sap-icon://shipping-status"
+								displaySize="S"
+								class="sapUiTinyMarginEnd">
+							</f:Avatar>
+							<m:Title  text="{Company}" wrapping="true" class="sapUiSmallMarginEnd"/>
+						</m:FlexBox>
+					</m:FlexBox>
+				</expandedHeading>
+
+				<snappedHeading>
+					<m:FlexBox wrap="Wrap" fitContainer="true" alignItems="Center">
+						<m:FlexBox wrap="NoWrap" fitContainer="true" alignItems="Center" class="sapUiTinyMarginEnd">
+							<f:Avatar
+								src="sap-icon://shipping-status"
+								displaySize="S"
+								class="sapUiTinyMarginEnd">
+							</f:Avatar>
+							<m:Title text="{Company}" wrapping="true" class="sapUiSmallMarginEnd"/>
+						</m:FlexBox>
+					</m:FlexBox>
+				</snappedHeading>
+				
+			</ObjectPageDynamicHeaderTitle>
+			
+		</headerTitle>
+		
+		
+		<sections id="objectPageSections">
+			
+			<ObjectPageSection id="headerObjectPageSection" title="{i18n>HeaderTitle}" >
+				<subSections>
+					<ObjectPageSubSection id="headerObjectPageSubSection">
+						<blocks>
+							<mvc:XMLView id="objectViewObjectHeaderView" viewName="web.manage-Shippers.view.ObjectHeader"/>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+			
+			<ObjectPageSection id="carrierList" title="{i18n>Carriers}">
+				<subSections>
+					<ObjectPageSubSection id="carrierListPageSubSection">
+						<blocks>
+							<mvc:XMLView id="objectViewCarrierListView" viewName="web.manage-Shippers.view.CarrierList"/>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+		</sections>
+		
+		<footer>
+			<m:Toolbar id="worklistToolbar" visible="{appView>/hasUIChanges}">
+				<m:ToolbarSpacer id="worklistToolbarSpacer" />
+				<m:Button
+					id="saveButton"
+					type="Emphasized"
+					text="{i18n>saveButtonText}"
+					enabled="{= ${message>/}.length === 0 &amp;&amp; ${appView>/hasUIChanges} === true }"
+					press=".onSave"/>
+				<m:Button
+					id="doneButton"
+					text="{i18n>cancelButtonText}"
+					press=".onResetChanges"/>
+			</m:Toolbar>
+		</footer>
+	</ObjectPageLayout>
+
+</mvc:View>

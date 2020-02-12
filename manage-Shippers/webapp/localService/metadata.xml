@@ -1,0 +1,1122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+	<edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+		<edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+	</edmx:Reference>
+	<edmx:Reference Uri="https://wiki.scn.sap.com/wiki/download/attachments/448470974/Common.xml?api=v2">
+		<edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+	</edmx:Reference>
+	<edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Measures.V1.xml">
+		<edmx:Include Alias="Measures" Namespace="Org.OData.Measures.V1"/>
+	</edmx:Reference>
+	<edmx:DataServices>
+		<Schema Namespace="CatalogService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+			<EntityContainer Name="EntityContainer">
+				<EntitySet Name="Authorizations" EntityType="CatalogService.Authorizations">
+					<NavigationPropertyBinding Path="AuthorizedUser" Target="Users"/>
+				</EntitySet>
+				<EntitySet Name="BusinessPartners" EntityType="CatalogService.BusinessPartners"/>
+				<EntitySet Name="Carriers" EntityType="CatalogService.Carriers">
+					<NavigationPropertyBinding Path="ToServices" Target="Services"/>
+				</EntitySet>
+				<EntitySet Name="DestinationType_texts" EntityType="CatalogService.DestinationType_texts"/>
+				<EntitySet Name="DestinationTypes" EntityType="CatalogService.DestinationTypes">
+					<NavigationPropertyBinding Path="texts" Target="DestinationType_texts"/>
+					<NavigationPropertyBinding Path="localized" Target="DestinationType_texts"/>
+				</EntitySet>
+				<EntitySet Name="Destination_texts" EntityType="CatalogService.Destination_texts"/>
+				<EntitySet Name="Destinations" EntityType="CatalogService.Destinations">
+					<NavigationPropertyBinding Path="DestinationType" Target="DestinationTypes"/>
+					<NavigationPropertyBinding Path="texts" Target="Destination_texts"/>
+					<NavigationPropertyBinding Path="localized" Target="Destination_texts"/>
+				</EntitySet>
+				<EntitySet Name="MOVEMENTHDRDETAILS" EntityType="CatalogService.MOVEMENTHDRDETAILS"/>
+				<EntitySet Name="MOVEMENTITMDETAILS" EntityType="CatalogService.MOVEMENTITMDETAILS"/>
+				<EntitySet Name="MovementGroupAssignments" EntityType="CatalogService.MovementGroupAssignments">
+					<NavigationPropertyBinding Path="Shipment" Target="MovementHdrs"/>
+					<NavigationPropertyBinding Path="MovementHdr" Target="MovementHdrs"/>
+					<NavigationPropertyBinding Path="MovementType" Target="MovementTypes"/>
+				</EntitySet>
+				<EntitySet Name="MovementGroups" EntityType="CatalogService.MovementGroups">
+					<NavigationPropertyBinding Path="MovementType" Target="MovementTypes"/>
+				</EntitySet>
+				<EntitySet Name="MovementHdrs" EntityType="CatalogService.MovementHdrs">
+					<NavigationPropertyBinding Path="MovementType" Target="MovementTypes"/>
+					<NavigationPropertyBinding Path="ToMovementItms" Target="MovementItms"/>
+					<NavigationPropertyBinding Path="ToShipUnitItms" Target="ShipUnitItms"/>
+					<NavigationPropertyBinding Path="ToMovementGroupAssignments" Target="MovementGroupAssignments"/>
+					<NavigationPropertyBinding Path="ToMovementGroup" Target="MovementGroupAssignments"/>
+					<NavigationPropertyBinding Path="ToShipUnitHdrs" Target="ShipUnitHdrs"/>
+					<NavigationPropertyBinding Path="ToBusinessPartners" Target="BusinessPartners"/>
+					<NavigationPropertyBinding Path="ToShipResponse" Target="ShipResponses"/>
+					<NavigationPropertyBinding Path="ToPackageResponses" Target="PackageResponses"/>
+					<NavigationPropertyBinding Path="TOMOVEMENTITMDETAILS" Target="MOVEMENTITMDETAILS"/>
+					<NavigationPropertyBinding Path="TOSHIPUNITHDRDETAILS" Target="SHIPUNITHDRDETAILS"/>
+					<NavigationPropertyBinding Path="TOSHIPUNITITMDETAILS" Target="SHIPUNITITMDETAILS"/>
+				</EntitySet>
+				<EntitySet Name="MovementItms" EntityType="CatalogService.MovementItms">
+					<NavigationPropertyBinding Path="ToShipUnitItms" Target="ShipUnitItms"/>
+				</EntitySet>
+				<EntitySet Name="MovementTypes" EntityType="CatalogService.MovementTypes"/>
+				<EntitySet Name="NumberRanges" EntityType="CatalogService.NumberRanges"/>
+				<EntitySet Name="PackageResponses" EntityType="CatalogService.PackageResponses"/>
+				<EntitySet Name="PackagingMaterials" EntityType="CatalogService.PackagingMaterials"/>
+				<EntitySet Name="PartnerTypes" EntityType="CatalogService.PartnerTypes"/>
+				<EntitySet Name="SHIPUNITHDRDETAILS" EntityType="CatalogService.SHIPUNITHDRDETAILS"/>
+				<EntitySet Name="SHIPUNITITMDETAILS" EntityType="CatalogService.SHIPUNITITMDETAILS"/>
+				<EntitySet Name="Services" EntityType="CatalogService.Services"/>
+				<EntitySet Name="ShipResponses" EntityType="CatalogService.ShipResponses"/>
+				<EntitySet Name="ShipUnitHdrs" EntityType="CatalogService.ShipUnitHdrs">
+					<NavigationPropertyBinding Path="MovementHdr" Target="MovementHdrs"/>
+					<NavigationPropertyBinding Path="ToPackageResponse" Target="PackageResponses"/>
+					<NavigationPropertyBinding Path="ToShipUnitItms" Target="ShipUnitItms"/>
+				</EntitySet>
+				<EntitySet Name="ShipUnitItms" EntityType="CatalogService.ShipUnitItms">
+					<NavigationPropertyBinding Path="ShipUnitHdr" Target="ShipUnitHdrs"/>
+					<NavigationPropertyBinding Path="MovementItm" Target="MovementItms"/>
+					<NavigationPropertyBinding Path="MovementHdr" Target="MovementHdrs"/>
+				</EntitySet>
+				<EntitySet Name="Shippers" EntityType="CatalogService.Shippers">
+					<NavigationPropertyBinding Path="ToCarriers" Target="Carriers"/>
+					<NavigationPropertyBinding Path="ToServices" Target="Services"/>
+				</EntitySet>
+				<EntitySet Name="Users" EntityType="CatalogService.Users">
+					<NavigationPropertyBinding Path="ToAuthorizations" Target="Authorizations"/>
+				</EntitySet>
+			</EntityContainer>
+			<EntityType Name="Authorizations">
+				<Key>
+					<PropertyRef Name="ID"/>
+					<PropertyRef Name="AuthorizedUser_Email"/>
+				</Key>
+				<NavigationProperty Name="AuthorizedUser" Type="CatalogService.Users" Partner="ToAuthorizations">
+					<ReferentialConstraint Property="AuthorizedUser_Email" ReferencedProperty="Email"/>
+				</NavigationProperty>
+				<Property Name="ID" Type="Edm.String" MaxLength="10" Nullable="false"/>
+				<Property Name="AuthorizedUser_Email" Type="Edm.String" MaxLength="60" Nullable="false"/>
+			</EntityType>
+			<EntityType Name="BusinessPartners">
+				<Key>
+					<PropertyRef Name="UUID"/>
+				</Key>
+				<Property Name="UUID" Type="Edm.Guid" Nullable="false"/>
+				<Property Name="MovementHdr_UUID" Type="Edm.Guid"/>
+				<Property Name="AddressID" Type="Edm.String" MaxLength="10"/>
+				<Property Name="BusinessPartnerName1" Type="Edm.String" MaxLength="60"/>
+				<Property Name="FullName" Type="Edm.String" MaxLength="60"/>
+				<Property Name="ContactPerson" Type="Edm.String" MaxLength="100"/>
+				<Property Name="Customer" Type="Edm.String" MaxLength="100"/>
+				<Property Name="PartnerFunction" Type="Edm.String" MaxLength="2"/>
+				<Property Name="Personnel" Type="Edm.String" MaxLength="100"/>
+				<Property Name="Document" Type="Edm.String" MaxLength="60"/>
+				<Property Name="DocumentItem" Type="Edm.String" MaxLength="60"/>
+				<Property Name="Supplier" Type="Edm.String" MaxLength="60"/>
+				<Property Name="TimeZone" Type="Edm.String" MaxLength="10"/>
+				<Property Name="PhoneNumber" Type="Edm.String" MaxLength="15"/>
+				<Property Name="Email" Type="Edm.String" MaxLength="100"/>
+				<Property Name="HouseNumber" Type="Edm.String" MaxLength="60"/>
+				<Property Name="StreetName" Type="Edm.String" MaxLength="100"/>
+				<Property Name="CityName" Type="Edm.String" MaxLength="100"/>
+				<Property Name="Region" Type="Edm.String" MaxLength="10"/>
+				<Property Name="PostalCode" Type="Edm.String" MaxLength="10"/>
+				<Property Name="Country" Type="Edm.String" MaxLength="60"/>
+				<Property Name="tenantID" Type="Edm.Guid"/>
+			</EntityType>
+			<EntityType Name="Carriers">
+				<Key>
+					<PropertyRef Name="UUID"/>
+				</Key>
+				<Property Name="UUID" Type="Edm.Guid" Nullable="false"/>
+				<Property Name="Shipper_UUID" Type="Edm.Guid"/>
+				<Property Name="ID" Type="Edm.String" MaxLength="60"/>
+				<Property Name="value" Type="Edm.String" MaxLength="40"/>
+				<Property Name="tenantID" Type="Edm.Guid"/>
+				<NavigationProperty Name="ToServices" Type="Collection(CatalogService.Services)">
+					<OnDelete Action="Cascade"/>
+				</NavigationProperty>
+			</EntityType>
+			<EntityType Name="DestinationType_texts">
+				<Key>
+					<PropertyRef Name="locale"/>
+					<PropertyRef Name="ID"/>
+				</Key>
+				<Property Name="locale" Type="Edm.String" MaxLength="5" Nullable="false"/>
+				<Property Name="ID" Type="Edm.String" MaxLength="60" Nullable="false"/>
+				<Property Name="description" Type="Edm.String"/>
+			</EntityType>
+			<EntityType Name="DestinationTypes">
+				<Key>
+					<PropertyRef Name="ID"/>
+				</Key>
+				<Property Name="ID" Type="Edm.String" MaxLength="60" Nullable="false"/>
+				<Property Name="description" Type="Edm.String"/>
+				<NavigationProperty Name="texts" Type="Collection(CatalogService.DestinationType_texts)">
+					<OnDelete Action="Cascade"/>
+				</NavigationProperty>
+				<NavigationProperty Name="localized" Type="CatalogService.DestinationType_texts">
+					<ReferentialConstraint Property="ID" ReferencedProperty="ID"/>
+				</NavigationProperty>
+			</EntityType>
+			<EntityType Name="Destination_texts">
+				<Key>
+					<PropertyRef Name="locale"/>
+					<PropertyRef Name="UUID"/>
+				</Key>
+				<Property Name="locale" Type="Edm.String" MaxLength="5" Nullable="false"/>
+				<Property Name="UUID" Type="Edm.Guid" Nullable="false"/>
+				<Property Name="description" Type="Edm.String"/>
+			</EntityType>
+			<EntityType Name="Destinations">
+				<Key>
+					<PropertyRef Name="UUID"/>
+				</Key>
+				<Property Name="UUID" Type="Edm.Guid" Nullable="false"/>
+				<NavigationProperty Name="DestinationType" Type="CatalogService.DestinationTypes">
+					<ReferentialConstraint Property="DestinationType_ID" ReferencedProperty="ID"/>
+				</NavigationProperty>
+				<Property Name="ID" Type="Edm.String" MaxLength="60"/>
+				<Property Name="description" Type="Edm.String"/>
+				<Property Name="tenantID" Type="Edm.Guid"/>
+				<NavigationProperty Name="texts" Type="Collection(CatalogService.Destination_texts)">
+					<OnDelete Action="Cascade"/>
+				</NavigationProperty>
+				<NavigationProperty Name="localized" Type="CatalogService.Destination_texts">
+					<ReferentialConstraint Property="UUID" ReferencedProperty="UUID"/>
+				</NavigationProperty>
+				<Property Name="DestinationType_ID" Type="Edm.String" MaxLength="60"/>
+			</EntityType>
+			<EntityType Name="MOVEMENTHDRDETAILS">
+				<Key>
+					<PropertyRef Name="MOVEMENTHDR_UUID"/>
+				</Key>
+				<Property Name="MOVEMENTHDR_UUID" Type="Edm.String" MaxLength="40" Nullable="false"/>
+				<Property Name="PACKING_STATUS" Type="Edm.String" MaxLength="13"/>
+			</EntityType>
+			<EntityType Name="MOVEMENTITMDETAILS">
+				<Key>
+					<PropertyRef Name="MOVEMENTHDR_UUID"/>
+					<PropertyRef Name="MOVEMENTITM_UUID"/>
+				</Key>
+				<Property Name="MOVEMENTHDR_UUID" Type="Edm.String" MaxLength="40" Nullable="false"/>
+				<Property Name="MOVEMENTITM_UUID" Type="Edm.String" MaxLength="40" Nullable="false"/>
+				<Property Name="PRODUCTID" Type="Edm.String" MaxLength="60"/>
+				<Property Name="DELIVERYUNIT" Type="Edm.String" MaxLength="3"/>
+				<Property Name="DELIVERYQUANTITY" Type="Edm.Decimal" Scale="3" Precision="13"/>
+				<Property Name="PACKED_QUANTITY" Type="Edm.Decimal" Scale="3" Precision="13"/>
+				<Property Name="CC_AVAILABLE_QUANTITY" Type="Edm.Decimal" Scale="3" Precision="13"/>
+			</EntityType>
+			<EntityType Name="MovementGroupAssignments">
+				<Key>
+					<PropertyRef Name="UUID"/>
+				</Key>
+				<Property Name="UUID" Type="Edm.Guid" Nullable="false"/>
+				<NavigationProperty Name="Shipment" Type="CatalogService.MovementHdrs" Partner="ToMovementGroupAssignments">
+					<ReferentialConstraint Property="Shipment_UUID" ReferencedProperty="UUID"/>
+				</NavigationProperty>
+				<NavigationProperty Name="MovementHdr" Type="CatalogService.MovementHdrs" Partner="ToMovementGroup">
+					<ReferentialConstraint Property="MovementHdr_UUID" ReferencedProperty="UUID"/>
+				</NavigationProperty>
+				<NavigationProperty Name="MovementType" Type="CatalogService.MovementTypes">
+					<ReferentialConstraint Property="MovementType_ID" ReferencedProperty="ID"/>
+				</NavigationProperty>
+				<Property Name="MovementID" Type="Edm.String" MaxLength="60"/>
+				<Property Name="tenantID" Type="Edm.Guid"/>
+				<Property Name="Shipment_UUID" Type="Edm.Guid"/>
+				<Property Name="MovementHdr_UUID" Type="Edm.Guid"/>
+				<Property Name="MovementType_ID" Type="Edm.String" MaxLength="60"/>
+			</EntityType>
+			<EntityType Name="MovementGroups">
+				<Key>
+					<PropertyRef Name="Parent_UUID"/>
+					<PropertyRef Name="Child_UUID"/>
+				</Key>
+				<Property Name="Parent_UUID" Type="Edm.Guid" Nullable="false"/>
+				<Property Name="Child_UUID" Type="Edm.Guid" Nullable="false"/>
+				<NavigationProperty Name="MovementType" Type="CatalogService.MovementTypes">
+					<ReferentialConstraint Property="MovementType_ID" ReferencedProperty="ID"/>
+				</NavigationProperty>
+				<Property Name="MovementID" Type="Edm.String" MaxLength="60"/>
+				<Property Name="tenantID" Type="Edm.Guid"/>
+				<Property Name="MovementType_ID" Type="Edm.String" MaxLength="60"/>
+			</EntityType>
+			<EntityType Name="MovementHdrs">
+				<Key>
+					<PropertyRef Name="UUID"/>
+				</Key>
+				<Property Name="UUID" Type="Edm.Guid" Nullable="false"/>
+				<NavigationProperty Name="MovementType" Type="CatalogService.MovementTypes">
+					<ReferentialConstraint Property="MovementType_ID" ReferencedProperty="ID"/>
+				</NavigationProperty>
+				<Property Name="MovementID" Type="Edm.String" MaxLength="60"/>
+				<Property Name="MovementStatus" Type="Edm.String" MaxLength="10"/>
+				<Property Name="Shipper" Type="Edm.String" MaxLength="60"/>
+				<Property Name="Carrier" Type="Edm.String" MaxLength="60"/>
+				<Property Name="ServiceLevel" Type="Edm.String" MaxLength="60"/>
+				<Property Name="SalesOrganization" Type="Edm.String" MaxLength="60"/>
+				<Property Name="GrossWeight" Type="Edm.Decimal" Scale="3" Precision="15"/>
+				<Property Name="NetWeight" Type="Edm.Decimal" Scale="3" Precision="15"/>
+				<Property Name="WeightUnit" Type="Edm.String" MaxLength="3"/>
+				<Property Name="Volume" Type="Edm.Decimal" Scale="3" Precision="15"/>
+				<Property Name="VolumeUnit" Type="Edm.String" MaxLength="3"/>
+				<Property Name="DocumentDate" Type="Edm.String" MaxLength="60"/>
+				<Property Name="DeliveryType" Type="Edm.String" MaxLength="60"/>
+				<Property Name="PickingDate" Type="Edm.Date"/>
+				<Property Name="TransportationPlanningDate" Type="Edm.Date"/>
+				<Property Name="LoadingDate" Type="Edm.Date"/>
+				<Property Name="PlannedGoodsIssueDate" Type="Edm.Date"/>
+				<Property Name="ActualGoodsMovementDate" Type="Edm.Date"/>
+				<Property Name="PickingStatus" Type="Edm.String" MaxLength="60"/>
+				<Property Name="WarehouseManagementStatus" Type="Edm.String" MaxLength="60"/>
+				<Property Name="PickConfirmationStatus" Type="Edm.String" MaxLength="60"/>
+				<Property Name="IncotermsClassification" Type="Edm.String" MaxLength="10"/>
+				<Property Name="IncotermsTransferLocation" Type="Edm.String" MaxLength="60"/>
+				<Property Name="ShippingPoint" Type="Edm.String" MaxLength="10"/>
+				<Property Name="TransportationID" Type="Edm.String" MaxLength="20"/>
+				<Property Name="Status" Type="Edm.String" MaxLength="2"/>
+				<Property Name="StatusDescription" Type="Edm.String"/>
+				<Property Name="ShipDate" Type="Edm.Date"/>
+				<Property Name="DeliveryDate" Type="Edm.Date"/>
+				<Property Name="ActualDeliveryRoute" Type="Edm.String" MaxLength="60"/>
+				<Property Name="OverallPickingStatus" Type="Edm.String" MaxLength="2"/>
+				<Property Name="OverallPackingStatus" Type="Edm.String" MaxLength="2"/>
+				<Property Name="OverallGoodsMovementStatus" Type="Edm.String" MaxLength="2"/>
+				<Property Name="CreatedAt" Type="Edm.Date"/>
+				<Property Name="ChangedAt" Type="Edm.TimeOfDay"/>
+				<Property Name="MovementGroupID" Type="Edm.String" MaxLength="60"/>
+				<Property Name="tenantID" Type="Edm.Guid"/>
+				<NavigationProperty Name="ToMovementItms" Type="Collection(CatalogService.MovementItms)">
+					<OnDelete Action="Cascade"/>
+				</NavigationProperty>
+				<NavigationProperty Name="ToShipUnitItms" Type="Collection(CatalogService.ShipUnitItms)" Partner="MovementHdr">
+					<OnDelete Action="Cascade"/>
+				</NavigationProperty>
+				<NavigationProperty Name="ToMovementGroupAssignments" Type="Collection(CatalogService.MovementGroupAssignments)" Partner="Shipment">
+					<OnDelete Action="Cascade"/>
+				</NavigationProperty>
+				<NavigationProperty Name="ToMovementGroup" Type="CatalogService.MovementGroupAssignments" Partner="MovementHdr">
+					<OnDelete Action="Cascade"/>
+				</NavigationProperty>
+				<NavigationProperty Name="ToShipUnitHdrs" Type="Collection(CatalogService.ShipUnitHdrs)" Partner="MovementHdr">
+					<OnDelete Action="Cascade"/>
+				</NavigationProperty>
+				<NavigationProperty Name="ToBusinessPartners" Type="Collection(CatalogService.BusinessPartners)">
+					<OnDelete Action="Cascade"/>
+				</NavigationProperty>
+				<NavigationProperty Name="ToShipResponse" Type="CatalogService.ShipResponses">
+					<OnDelete Action="Cascade"/>
+					<ReferentialConstraint Property="MovementHdr_UUID" ReferencedProperty="UUID"/>
+				</NavigationProperty>
+				<NavigationProperty Name="ToPackageResponses" Type="Collection(CatalogService.PackageResponses)">
+					<OnDelete Action="Cascade"/>
+				</NavigationProperty>
+				<NavigationProperty Name="TOMOVEMENTITMDETAILS" Type="Collection(CatalogService.MOVEMENTITMDETAILS)">
+					<OnDelete Action="Cascade"/>
+				</NavigationProperty>
+				<NavigationProperty Name="TOSHIPUNITHDRDETAILS" Type="Collection(CatalogService.SHIPUNITHDRDETAILS)">
+					<OnDelete Action="Cascade"/>
+				</NavigationProperty>
+				<NavigationProperty Name="TOSHIPUNITITMDETAILS" Type="Collection(CatalogService.SHIPUNITITMDETAILS)">
+					<OnDelete Action="Cascade"/>
+				</NavigationProperty>
+				<Property Name="MovementType_ID" Type="Edm.String" MaxLength="60"/>
+			</EntityType>
+			<EntityType Name="MovementItms">
+				<Key>
+					<PropertyRef Name="UUID"/>
+				</Key>
+				<Property Name="UUID" Type="Edm.Guid" Nullable="false"/>
+				<Property Name="MovementHdr_UUID" Type="Edm.Guid"/>
+				<Property Name="RefDocument" Type="Edm.String" MaxLength="60"/>
+				<Property Name="RefDocumentItem" Type="Edm.String" MaxLength="10"/>
+				<Property Name="ProductID" Type="Edm.String" MaxLength="60"/>
+				<Property Name="DeliveryQuantity" Type="Edm.Decimal" Scale="3" Precision="13"/>
+				<Property Name="DeliveryUnit" Type="Edm.String" MaxLength="3"/>
+				<Property Name="NetWeight" Type="Edm.Decimal" Scale="3" Precision="15"/>
+				<Property Name="GrossWeight" Type="Edm.Decimal" Scale="3" Precision="15"/>
+				<Property Name="WeightUnit" Type="Edm.String" MaxLength="3"/>
+				<Property Name="DeliveryDate" Type="Edm.Date"/>
+				<Property Name="tenantID" Type="Edm.Guid"/>
+				<NavigationProperty Name="ToShipUnitItms" Type="Collection(CatalogService.ShipUnitItms)" Partner="MovementItm">
+					<OnDelete Action="Cascade"/>
+				</NavigationProperty>
+			</EntityType>
+			<EntityType Name="MovementTypes">
+				<Key>
+					<PropertyRef Name="ID"/>
+				</Key>
+				<Property Name="ID" Type="Edm.String" MaxLength="60" Nullable="false"/>
+			</EntityType>
+			<EntityType Name="NumberRanges">
+				<Key>
+					<PropertyRef Name="UUID"/>
+				</Key>
+				<Property Name="UUID" Type="Edm.Guid" Nullable="false"/>
+				<Property Name="ID" Type="Edm.String" MaxLength="60"/>
+				<Property Name="Low" Type="Edm.Int32"/>
+				<Property Name="High" Type="Edm.Int32"/>
+				<Property Name="LastUsed" Type="Edm.Int32"/>
+				<Property Name="Length" Type="Edm.Int32"/>
+				<Property Name="tenantID" Type="Edm.Guid"/>
+			</EntityType>
+			<EntityType Name="PackageResponses">
+				<Key>
+					<PropertyRef Name="UUID"/>
+				</Key>
+				<Property Name="UUID" Type="Edm.Guid" Nullable="false"/>
+				<Property Name="ShipResponse_UUID" Type="Edm.Guid"/>
+				<Property Name="MovementHdr_UUID" Type="Edm.Guid"/>
+				<Property Name="ShipUnitHdr_UUID" Type="Edm.Guid"/>
+				<Property Name="error_code" Type="Edm.Int32"/>
+				<Property Name="error_message" Type="Edm.String"/>
+				<Property Name="service" Type="Edm.String" MaxLength="60"/>
+				<Property Name="subcategory" Type="Edm.String" MaxLength="60"/>
+				<Property Name="documents" Type="Edm.String" MaxLength="60"/>
+				<Property Name="apportioned_base" Type="Edm.String" MaxLength="60"/>
+				<Property Name="apportioned_base_unit" Type="Edm.String" MaxLength="5"/>
+				<Property Name="apportioned_special" Type="Edm.String" MaxLength="60"/>
+				<Property Name="apportioned_special_unit" Type="Edm.String" MaxLength="5"/>
+				<Property Name="apportioned_total" Type="Edm.String" MaxLength="60"/>
+				<Property Name="apportioned_total_unit" Type="Edm.String" MaxLength="5"/>
+				<Property Name="arrive_date" Type="Edm.Date"/>
+				<Property Name="bar_code" Type="Edm.String" MaxLength="60"/>
+				<Property Name="billing_fee" Type="Edm.String" MaxLength="60"/>
+				<Property Name="billing_fee_unit" Type="Edm.String" MaxLength="5"/>
+				<Property Name="bundle_id" Type="Edm.String" MaxLength="60"/>
+				<Property Name="dimensional_weight_rated" Type="Edm.Boolean"/>
+				<Property Name="fuel_surcharge" Type="Edm.String" MaxLength="60"/>
+				<Property Name="fuel_surcharge_unit" Type="Edm.String" MaxLength="5"/>
+				<Property Name="maxicode" Type="Edm.String"/>
+				<Property Name="msn" Type="Edm.String" MaxLength="60"/>
+				<Property Name="nofn_sequence_bundle" Type="Edm.Int32"/>
+				<Property Name="nofn_total_bundle" Type="Edm.Int32"/>
+				<Property Name="package_list_id" Type="Edm.String" MaxLength="60"/>
+				<Property Name="rated_weight" Type="Edm.String" MaxLength="60"/>
+				<Property Name="rated_weight_unit" Type="Edm.String" MaxLength="6"/>
+				<Property Name="routing_code" Type="Edm.String" MaxLength="60"/>
+				<Property Name="time_in_transit" Type="Edm.String" MaxLength="60"/>
+				<Property Name="tracking_number" Type="Edm.String" MaxLength="60"/>
+				<Property Name="waybill_bol_number" Type="Edm.String" MaxLength="60"/>
+				<Property Name="zone" Type="Edm.String" MaxLength="60"/>
+				<Property Name="time_in_transit_days" Type="Edm.Int32"/>
+				<Property Name="arrive_time" Type="Edm.TimeOfDay"/>
+				<Property Name="global_msn" Type="Edm.String" MaxLength="60"/>
+				<Property Name="global_bundle_id" Type="Edm.String" MaxLength="60"/>
+				<Property Name="ship_id" Type="Edm.String" MaxLength="60"/>
+				<Property Name="tenantID" Type="Edm.Guid"/>
+			</EntityType>
+			<EntityType Name="PackagingMaterials">
+				<Key>
+					<PropertyRef Name="UUID"/>
+				</Key>
+				<Property Name="UUID" Type="Edm.Guid" Nullable="false"/>
+				<Property Name="ID" Type="Edm.String" MaxLength="60"/>
+				<Property Name="Length" Type="Edm.Decimal" Scale="3" Precision="13"/>
+				<Property Name="Width" Type="Edm.Decimal" Scale="3" Precision="13"/>
+				<Property Name="Height" Type="Edm.Decimal" Scale="3" Precision="13"/>
+				<Property Name="DimensionUnit" Type="Edm.String" MaxLength="3"/>
+				<Property Name="Weight" Type="Edm.Decimal" Scale="3" Precision="15"/>
+				<Property Name="WeightUnit" Type="Edm.String" MaxLength="3"/>
+				<Property Name="tenantID" Type="Edm.Guid"/>
+			</EntityType>
+			<EntityType Name="PartnerTypes">
+				<Key>
+					<PropertyRef Name="UUID"/>
+				</Key>
+				<Property Name="UUID" Type="Edm.Guid" Nullable="false"/>
+				<Property Name="ID" Type="Edm.String" MaxLength="2"/>
+				<Property Name="ReasonCode" Type="Edm.String" MaxLength="60"/>
+				<Property Name="TextKey" Type="Edm.String" MaxLength="60"/>
+				<Property Name="Icon" Type="Edm.String" MaxLength="60"/>
+				<Property Name="tenantID" Type="Edm.Guid"/>
+			</EntityType>
+			<EntityType Name="SHIPUNITHDRDETAILS">
+				<Key>
+					<PropertyRef Name="SHIPUNITHDR_UUID"/>
+				</Key>
+				<Property Name="SHIPUNITHDR_UUID" Type="Edm.String" MaxLength="40" Nullable="false"/>
+				<Property Name="MOVEMENTHDR_UUID" Type="Edm.String" MaxLength="40"/>
+				<Property Name="MOVEMENTID" Type="Edm.String" MaxLength="60"/>
+				<Property Name="PACKAGINGMATERIAL_ID" Type="Edm.String" MaxLength="60"/>
+				<Property Name="LENGTH" Type="Edm.Decimal" Scale="2" Precision="13"/>
+				<Property Name="WIDTH" Type="Edm.Decimal" Scale="2" Precision="13"/>
+				<Property Name="HEIGHT" Type="Edm.Decimal" Scale="2" Precision="13"/>
+				<Property Name="DIMENSIONUNIT" Type="Edm.String" MaxLength="3"/>
+				<Property Name="PACKMAT_WEIGHT" Type="Edm.Decimal" Scale="3" Precision="15"/>
+				<Property Name="PACKMAT_WEIGHTUNIT" Type="Edm.String" MaxLength="3"/>
+				<Property Name="TRACKINGNUMBER" Type="Edm.String" MaxLength="60"/>
+				<Property Name="SHIPPINGCHARGE" Type="Edm.Decimal" Scale="3" Precision="15"/>
+				<Property Name="RATINGCHARGE" Type="Edm.Decimal" Scale="3" Precision="15"/>
+				<Property Name="CHARGEUNIT" Type="Edm.String" MaxLength="3"/>
+				<Property Name="NETWEIGHT" Type="Edm.Decimal" Scale="2" Precision="13"/>
+				<Property Name="GROSSWEIGHT" Type="Edm.Decimal" Scale="2" Precision="13"/>
+				<Property Name="SERVICE" Type="Edm.String" MaxLength="60"/>
+				<Property Name="SUBCATEGORY" Type="Edm.String" MaxLength="60"/>
+				<Property Name="DOCUMENTS" Type="Edm.String" MaxLength="60"/>
+				<Property Name="APPORTIONED_BASE" Type="Edm.Decimal" Scale="3" Precision="15"/>
+				<Property Name="APPORTIONED_BASE_UNIT" Type="Edm.String" MaxLength="5"/>
+				<Property Name="APPORTIONED_SPECIAL" Type="Edm.Decimal" Scale="3" Precision="15"/>
+				<Property Name="APPORTIONED_SPECIAL_UNIT" Type="Edm.String" MaxLength="5"/>
+				<Property Name="APPORTIONED_TOTAL" Type="Edm.Decimal" Scale="3" Precision="15"/>
+				<Property Name="APPORTIONED_TOTAL_UNIT" Type="Edm.String" MaxLength="5"/>
+				<Property Name="ARRIVE_DATE" Type="Edm.Date"/>
+				<Property Name="BAR_CODE" Type="Edm.String" MaxLength="60"/>
+				<Property Name="BILLING_FEE" Type="Edm.Decimal" Scale="3" Precision="15"/>
+				<Property Name="BILLING_FEE_UNIT" Type="Edm.String" MaxLength="5"/>
+				<Property Name="BUNDLE_ID" Type="Edm.String" MaxLength="60"/>
+				<Property Name="DIMENSIONAL_WEIGHT_RATED" Type="Edm.Boolean"/>
+				<Property Name="FUEL_SURCHARGE" Type="Edm.Decimal" Scale="3" Precision="15"/>
+				<Property Name="FUEL_SURCHARGE_UNIT" Type="Edm.String" MaxLength="5"/>
+				<Property Name="MSN" Type="Edm.String" MaxLength="60"/>
+				<Property Name="NOFN_SEQUENCE_BUNDLE" Type="Edm.Int32"/>
+				<Property Name="NOFN_TOTAL_BUNDLE" Type="Edm.Int32"/>
+				<Property Name="PACKAGE_LIST_ID" Type="Edm.String" MaxLength="60"/>
+				<Property Name="RATED_WEIGHT" Type="Edm.Decimal" Scale="3" Precision="13"/>
+				<Property Name="RATED_WEIGHT_UNIT" Type="Edm.String" MaxLength="6"/>
+				<Property Name="ROUTING_CODE" Type="Edm.String" MaxLength="60"/>
+				<Property Name="TIME_IN_TRANSIT" Type="Edm.String" MaxLength="60"/>
+				<Property Name="TRACKING_NUMBER" Type="Edm.String" MaxLength="60"/>
+				<Property Name="WAYBILL_BOL_NUMBER" Type="Edm.String" MaxLength="60"/>
+				<Property Name="ZONE" Type="Edm.String" MaxLength="60"/>
+				<Property Name="TIME_IN_TRANSIT_DAYS" Type="Edm.Int32"/>
+				<Property Name="ARRIVE_TIME" Type="Edm.TimeOfDay"/>
+				<Property Name="GLOBAL_MSN" Type="Edm.String" MaxLength="60"/>
+				<Property Name="GLOBAL_BUNDLE_ID" Type="Edm.String" MaxLength="60"/>
+				<Property Name="SHIP_ID" Type="Edm.String" MaxLength="60"/>
+			</EntityType>
+			<EntityType Name="SHIPUNITITMDETAILS">
+				<Key>
+					<PropertyRef Name="SHIPUNITHDR_UUID"/>
+				</Key>
+				<Property Name="SHIPUNITHDR_UUID" Type="Edm.String" MaxLength="40" Nullable="false"/>
+				<Property Name="MOVEMENTITM_UUID" Type="Edm.String" MaxLength="40"/>
+				<Property Name="MOVEMENTHDR_UUID" Type="Edm.String" MaxLength="40"/>
+				<Property Name="UNIT" Type="Edm.String" MaxLength="3"/>
+				<Property Name="QUANTITY" Type="Edm.Decimal" Scale="3" Precision="13"/>
+			</EntityType>
+			<EntityType Name="Services">
+				<Key>
+					<PropertyRef Name="UUID"/>
+				</Key>
+				<Property Name="UUID" Type="Edm.Guid" Nullable="false"/>
+				<Property Name="Shipper_UUID" Type="Edm.Guid"/>
+				<Property Name="Carrier_UUID" Type="Edm.Guid"/>
+				<Property Name="ID" Type="Edm.String" MaxLength="60"/>
+				<Property Name="value" Type="Edm.String" MaxLength="40"/>
+				<Property Name="tenantID" Type="Edm.Guid"/>
+			</EntityType>
+			<EntityType Name="ShipResponses">
+				<Key>
+					<PropertyRef Name="UUID"/>
+				</Key>
+				<Property Name="UUID" Type="Edm.Guid" Nullable="false"/>
+				<Property Name="MovementHdr_UUID" Type="Edm.Guid"/>
+				<Property Name="error_code" Type="Edm.Int32"/>
+				<Property Name="error_message" Type="Edm.String"/>
+				<Property Name="arrive_date" Type="Edm.Date"/>
+				<Property Name="base_charge" Type="Edm.String" MaxLength="60"/>
+				<Property Name="base_charge_unit" Type="Edm.String" MaxLength="5"/>
+				<Property Name="bundle_id_list" Type="Edm.String"/>
+				<Property Name="fuel_surcharge" Type="Edm.String" MaxLength="60"/>
+				<Property Name="fuel_surcharge_unit" Type="Edm.String" MaxLength="5"/>
+				<Property Name="service" Type="Edm.String" MaxLength="60"/>
+				<Property Name="subcategory" Type="Edm.String" MaxLength="60"/>
+				<Property Name="time_in_transit" Type="Edm.String" MaxLength="60"/>
+				<Property Name="total" Type="Edm.String" MaxLength="60"/>
+				<Property Name="total_unit" Type="Edm.String" MaxLength="5"/>
+				<Property Name="time_in_transit_days" Type="Edm.Int32"/>
+				<Property Name="arrive_time" Type="Edm.TimeOfDay"/>
+				<Property Name="tenantID" Type="Edm.Guid"/>
+			</EntityType>
+			<EntityType Name="ShipUnitHdrs">
+				<Key>
+					<PropertyRef Name="UUID"/>
+				</Key>
+				<Property Name="UUID" Type="Edm.Guid" Nullable="false"/>
+				<Property Name="ExternalIdentifier" Type="Edm.String" MaxLength="60"/>
+				<NavigationProperty Name="MovementHdr" Type="CatalogService.MovementHdrs" Partner="ToShipUnitHdrs">
+					<ReferentialConstraint Property="MovementHdr_UUID" ReferencedProperty="UUID"/>
+				</NavigationProperty>
+				<Property Name="PackagingMaterial_ID" Type="Edm.String" MaxLength="60"/>
+				<Property Name="TrackingNumber" Type="Edm.String" MaxLength="60"/>
+				<Property Name="ShippingCharge" Type="Edm.Decimal" Scale="3" Precision="15"/>
+				<Property Name="RatingCharge" Type="Edm.Decimal" Scale="3" Precision="15"/>
+				<Property Name="ChargeUnit" Type="Edm.String" MaxLength="3"/>
+				<Property Name="tenantID" Type="Edm.Guid"/>
+				<NavigationProperty Name="ToPackageResponse" Type="CatalogService.PackageResponses">
+					<OnDelete Action="Cascade"/>
+					<ReferentialConstraint Property="ShipUnitHdr_UUID" ReferencedProperty="UUID"/>
+				</NavigationProperty>
+				<NavigationProperty Name="ToShipUnitItms" Type="Collection(CatalogService.ShipUnitItms)" Partner="ShipUnitHdr">
+					<OnDelete Action="Cascade"/>
+				</NavigationProperty>
+				<Property Name="MovementHdr_UUID" Type="Edm.Guid"/>
+			</EntityType>
+			<EntityType Name="ShipUnitItms">
+				<Key>
+					<PropertyRef Name="ShipUnitHdr_UUID"/>
+					<PropertyRef Name="MovementItm_UUID"/>
+				</Key>
+				<NavigationProperty Name="ShipUnitHdr" Type="CatalogService.ShipUnitHdrs" Partner="ToShipUnitItms">
+					<ReferentialConstraint Property="ShipUnitHdr_UUID" ReferencedProperty="UUID"/>
+				</NavigationProperty>
+				<NavigationProperty Name="MovementItm" Type="CatalogService.MovementItms" Partner="ToShipUnitItms">
+					<ReferentialConstraint Property="MovementItm_UUID" ReferencedProperty="UUID"/>
+				</NavigationProperty>
+				<NavigationProperty Name="MovementHdr" Type="CatalogService.MovementHdrs" Partner="ToShipUnitItms">
+					<ReferentialConstraint Property="MovementHdr_UUID" ReferencedProperty="UUID"/>
+				</NavigationProperty>
+				<Property Name="Rank" Type="Edm.Int32"/>
+				<Property Name="ProductID" Type="Edm.String" MaxLength="60"/>
+				<Property Name="Quantity" Type="Edm.Decimal" Scale="3" Precision="13"/>
+				<Property Name="Unit" Type="Edm.String" MaxLength="3"/>
+				<Property Name="tenantID" Type="Edm.Guid"/>
+				<Property Name="ShipUnitHdr_UUID" Type="Edm.Guid" Nullable="false"/>
+				<Property Name="MovementItm_UUID" Type="Edm.Guid" Nullable="false"/>
+				<Property Name="MovementHdr_UUID" Type="Edm.Guid"/>
+			</EntityType>
+			<EntityType Name="Shippers">
+				<Key>
+					<PropertyRef Name="UUID"/>
+				</Key>
+				<Property Name="UUID" Type="Edm.Guid" Nullable="false"/>
+				<Property Name="ID" Type="Edm.String" MaxLength="60"/>
+				<Property Name="value" Type="Edm.String" MaxLength="40"/>
+				<Property Name="Address1" Type="Edm.String" MaxLength="40"/>
+				<Property Name="City" Type="Edm.String" MaxLength="40"/>
+				<Property Name="Company" Type="Edm.String" MaxLength="40"/>
+				<Property Name="Contact" Type="Edm.String" MaxLength="40"/>
+				<Property Name="CountrySymbol" Type="Edm.String" MaxLength="20"/>
+				<Property Name="CountryISO2" Type="Edm.String" MaxLength="2"/>
+				<Property Name="Phone" Type="Edm.String" MaxLength="15"/>
+				<Property Name="PostalCode" Type="Edm.String" MaxLength="10"/>
+				<Property Name="StateProvince" Type="Edm.String" MaxLength="40"/>
+				<Property Name="tenantID" Type="Edm.Guid"/>
+				<NavigationProperty Name="ToCarriers" Type="Collection(CatalogService.Carriers)">
+					<OnDelete Action="Cascade"/>
+				</NavigationProperty>
+				<NavigationProperty Name="ToServices" Type="Collection(CatalogService.Services)">
+					<OnDelete Action="Cascade"/>
+				</NavigationProperty>
+			</EntityType>
+			<EntityType Name="Users">
+				<Key>
+					<PropertyRef Name="Email"/>
+				</Key>
+				<Property Name="Email" Type="Edm.String" MaxLength="60" Nullable="false"/>
+				<Property Name="FirstName" Type="Edm.String" MaxLength="60"/>
+				<Property Name="LastName" Type="Edm.String" MaxLength="60"/>
+				<Property Name="Password" Type="Edm.String" MaxLength="60"/>
+				<NavigationProperty Name="ToAuthorizations" Type="Collection(CatalogService.Authorizations)" Partner="AuthorizedUser"/>
+			</EntityType>
+			<Annotations Target="CatalogService.EntityContainer/Authorizations">
+				<Annotation Term="Capabilities.DeleteRestrictions">
+					<Record Type="Capabilities.DeleteRestrictionsType">
+						<PropertyValue Property="Deletable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="true"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="CatalogService.EntityContainer/BusinessPartners">
+				<Annotation Term="Capabilities.DeleteRestrictions">
+					<Record Type="Capabilities.DeleteRestrictionsType">
+						<PropertyValue Property="Deletable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="true"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="CatalogService.BusinessPartners/AddressID">
+				<Annotation Term="Common.Label" String="{i18n>BusinessPartnerID}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.EntityContainer/Carriers">
+				<Annotation Term="Capabilities.DeleteRestrictions">
+					<Record Type="Capabilities.DeleteRestrictionsType">
+						<PropertyValue Property="Deletable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="true"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="CatalogService.DestinationType_texts/ID">
+				<Annotation Term="Common.Label" String="{i18n>DestinationType}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.EntityContainer/DestinationTypes">
+				<Annotation Term="Capabilities.DeleteRestrictions">
+					<Record Type="Capabilities.DeleteRestrictionsType">
+						<PropertyValue Property="Deletable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="true"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="CatalogService.DestinationTypes/ID">
+				<Annotation Term="Common.Label" String="{i18n>DestinationType}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.EntityContainer/Destinations">
+				<Annotation Term="Capabilities.DeleteRestrictions">
+					<Record Type="Capabilities.DeleteRestrictionsType">
+						<PropertyValue Property="Deletable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="true"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="CatalogService.EntityContainer/MOVEMENTHDRDETAILS">
+				<Annotation Term="Capabilities.DeleteRestrictions">
+					<Record Type="Capabilities.DeleteRestrictionsType">
+						<PropertyValue Property="Deletable" Bool="false"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="false"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="false"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="CatalogService.EntityContainer/MOVEMENTITMDETAILS">
+				<Annotation Term="Capabilities.DeleteRestrictions">
+					<Record Type="Capabilities.DeleteRestrictionsType">
+						<PropertyValue Property="Deletable" Bool="false"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="false"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="false"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="CatalogService.EntityContainer/MovementGroupAssignments">
+				<Annotation Term="Capabilities.DeleteRestrictions">
+					<Record Type="Capabilities.DeleteRestrictionsType">
+						<PropertyValue Property="Deletable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="true"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="CatalogService.MovementGroupAssignments/MovementType">
+				<Annotation Term="Common.Label" String="{i18n>MovementType}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.MovementGroupAssignments/MovementID">
+				<Annotation Term="Common.Label" String="{i18n>MovementID}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.MovementGroupAssignments/MovementType_ID">
+				<Annotation Term="Common.Label" String="{i18n>MovementType}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.EntityContainer/MovementGroups">
+				<Annotation Term="Capabilities.DeleteRestrictions">
+					<Record Type="Capabilities.DeleteRestrictionsType">
+						<PropertyValue Property="Deletable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="true"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="CatalogService.EntityContainer/MovementHdrs">
+				<Annotation Term="Capabilities.DeleteRestrictions">
+					<Record Type="Capabilities.DeleteRestrictionsType">
+						<PropertyValue Property="Deletable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="true"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="CatalogService.MovementHdrs/MovementType">
+				<Annotation Term="Common.Label" String="{i18n>MovementType}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.MovementHdrs/MovementID">
+				<Annotation Term="Common.Label" String="{i18n>MovementID}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.MovementHdrs/DeliveryDate">
+				<Annotation Term="Common.Label" String="{i18n>DeliveryDate}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.MovementHdrs/ActualDeliveryRoute">
+				<Annotation Term="Common.Label" String="{i18n>DeliveryRoute}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.MovementHdrs/CreatedAt">
+				<Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.MovementHdrs/ChangedAt">
+				<Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.MovementHdrs/MovementType_ID">
+				<Annotation Term="Common.Label" String="{i18n>MovementType}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.EntityContainer/MovementItms">
+				<Annotation Term="Capabilities.DeleteRestrictions">
+					<Record Type="Capabilities.DeleteRestrictionsType">
+						<PropertyValue Property="Deletable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="true"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="CatalogService.MovementItms/RefDocumentItem">
+				<Annotation Term="Common.Label" String="{i18n>ItemPosition}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.MovementItms/ProductID">
+				<Annotation Term="Common.Label" String="{i18n>ProductID}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.MovementItms/NetWeight">
+				<Annotation Term="Common.Label" String="{i18n>NetWeight}"/>
+				<Annotation Term="Measures.ISOCurrency" Path="weight"/>
+			</Annotations>
+			<Annotations Target="CatalogService.MovementItms/GrossWeight">
+				<Annotation Term="Common.Label" String="{i18n>GrossWeight}"/>
+				<Annotation Term="Measures.ISOCurrency" Path="weight"/>
+			</Annotations>
+			<Annotations Target="CatalogService.EntityContainer/MovementTypes">
+				<Annotation Term="Capabilities.DeleteRestrictions">
+					<Record Type="Capabilities.DeleteRestrictionsType">
+						<PropertyValue Property="Deletable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="true"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="CatalogService.MovementTypes/ID">
+				<Annotation Term="Common.Label" String="{i18n>MovementType}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.EntityContainer/NumberRanges">
+				<Annotation Term="Capabilities.DeleteRestrictions">
+					<Record Type="Capabilities.DeleteRestrictionsType">
+						<PropertyValue Property="Deletable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="true"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="CatalogService.EntityContainer/PackageResponses">
+				<Annotation Term="Capabilities.DeleteRestrictions">
+					<Record Type="Capabilities.DeleteRestrictionsType">
+						<PropertyValue Property="Deletable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="true"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="CatalogService.EntityContainer/PackagingMaterials">
+				<Annotation Term="Capabilities.DeleteRestrictions">
+					<Record Type="Capabilities.DeleteRestrictionsType">
+						<PropertyValue Property="Deletable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="true"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="CatalogService.EntityContainer/PartnerTypes">
+				<Annotation Term="Capabilities.DeleteRestrictions">
+					<Record Type="Capabilities.DeleteRestrictionsType">
+						<PropertyValue Property="Deletable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="true"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="CatalogService.EntityContainer/SHIPUNITHDRDETAILS">
+				<Annotation Term="Capabilities.DeleteRestrictions">
+					<Record Type="Capabilities.DeleteRestrictionsType">
+						<PropertyValue Property="Deletable" Bool="false"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="false"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="false"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="CatalogService.SHIPUNITHDRDETAILS/SHIPUNITHDR_UUID">
+				<Annotation Term="Common.Label" String="{i18n>ShipUnitHdr_UUID}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.SHIPUNITHDRDETAILS/MOVEMENTHDR_UUID">
+				<Annotation Term="Common.Label" String="{i18n>MovementHdr_UUID}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.SHIPUNITHDRDETAILS/PACKAGINGMATERIAL_ID">
+				<Annotation Term="Common.Label" String="{i18n>PackagingMaterial}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.SHIPUNITHDRDETAILS/LENGTH">
+				<Annotation Term="Common.Label" String="{i18n>Length}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.SHIPUNITHDRDETAILS/WIDTH">
+				<Annotation Term="Common.Label" String="{i18n>Width}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.SHIPUNITHDRDETAILS/HEIGHT">
+				<Annotation Term="Common.Label" String="{i18n>Height}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.SHIPUNITHDRDETAILS/DIMENSIONUNIT">
+				<Annotation Term="Common.Label" String="{i18n>DimensionUnit}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.SHIPUNITHDRDETAILS/PACKMAT_WEIGHT">
+				<Annotation Term="Common.Label" String="{i18n>PackmatWeight}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.SHIPUNITHDRDETAILS/PACKMAT_WEIGHTUNIT">
+				<Annotation Term="Common.Label" String="{i18n>PackmatWeightunit}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.SHIPUNITHDRDETAILS/TRACKINGNUMBER">
+				<Annotation Term="Common.Label" String="{i18n>TrackingNumber}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.SHIPUNITHDRDETAILS/SHIPPINGCHARGE">
+				<Annotation Term="Common.Label" String="{i18n>ShippingCharge}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.SHIPUNITHDRDETAILS/RATINGCHARGE">
+				<Annotation Term="Common.Label" String="{i18n>RatingCharge}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.SHIPUNITHDRDETAILS/CHARGEUNIT">
+				<Annotation Term="Common.Label" String="{i18n>ChargeUnit}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.SHIPUNITHDRDETAILS/NETWEIGHT">
+				<Annotation Term="Common.Label" String="{i18n>CC_NetWeight}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.SHIPUNITHDRDETAILS/GROSSWEIGHT">
+				<Annotation Term="Common.Label" String="{18n>GrossWeight}"/>
+			</Annotations>
+			<Annotations Target="CatalogService.EntityContainer/SHIPUNITITMDETAILS">
+				<Annotation Term="Capabilities.DeleteRestrictions">
+					<Record Type="Capabilities.DeleteRestrictionsType">
+						<PropertyValue Property="Deletable" Bool="false"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="false"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="false"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="CatalogService.EntityContainer/Services">
+				<Annotation Term="Capabilities.DeleteRestrictions">
+					<Record Type="Capabilities.DeleteRestrictionsType">
+						<PropertyValue Property="Deletable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="true"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="CatalogService.EntityContainer/ShipResponses">
+				<Annotation Term="Capabilities.DeleteRestrictions">
+					<Record Type="Capabilities.DeleteRestrictionsType">
+						<PropertyValue Property="Deletable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="true"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="CatalogService.EntityContainer/ShipUnitHdrs">
+				<Annotation Term="Capabilities.DeleteRestrictions">
+					<Record Type="Capabilities.DeleteRestrictionsType">
+						<PropertyValue Property="Deletable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="true"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="CatalogService.EntityContainer/ShipUnitItms">
+				<Annotation Term="Capabilities.DeleteRestrictions">
+					<Record Type="Capabilities.DeleteRestrictionsType">
+						<PropertyValue Property="Deletable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="true"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="CatalogService.EntityContainer/Shippers">
+				<Annotation Term="Capabilities.DeleteRestrictions">
+					<Record Type="Capabilities.DeleteRestrictionsType">
+						<PropertyValue Property="Deletable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="true"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="CatalogService.EntityContainer/Users">
+				<Annotation Term="Capabilities.DeleteRestrictions">
+					<Record Type="Capabilities.DeleteRestrictionsType">
+						<PropertyValue Property="Deletable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="true"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="true"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

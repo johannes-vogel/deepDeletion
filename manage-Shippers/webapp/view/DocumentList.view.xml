@@ -1,0 +1,64 @@
+<mvc:View
+		id="web.manage-Shippers.view.DocumentList"
+		controllerName="web.manage-Shippers.controller.DocumentList"
+		xmlns="sap.m"
+		xmlns:mvc="sap.ui.core.mvc"
+		xmlns:grid="sap.ui.layout.cssgrid"
+		xmlns:f="sap.f"
+		xmlns:core="sap.ui.core">
+
+	<Panel id="DocumentListPanel" width="100%">
+		<headerToolbar>
+			<Toolbar id="DocumentListToolbar">
+				<Title id="lineItemsTitle" text="{detailView&gt;/lineItemListTitle}" titleStyle="H3" level="H3"/>
+				<ToolbarSpacer id="DocumentListToolbarSpacer" />
+				<Button
+					id="DocumentListButtonAdd"
+					icon="sap-icon://add"
+					tooltip="{i18n>createButtonTooltip}"
+					press=".onCreate"/>
+			</Toolbar>
+		</headerToolbar>
+		
+		<content>
+			<Table
+				id="DocumentList" 
+				growing="true"
+				growingThreshold="10"
+				items="{
+					path: '/Documents',
+					parameters: {
+						$count: true,
+						$$updateGroupId : 'ShipperGroup'
+					}
+				}"
+				mode="SingleSelectLeft">
+				
+				<columns>
+					<Column id="DocumentColumn0">
+						<Text text="{i18n>NameLabelText}"/>
+					</Column>
+					<Column id="DocumentColumn1">
+						<Text text="{i18n>symbolLabelText}"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem id="DocumentColumnListItem" type="Navigation" press=".onPress">
+						<cells>
+							<Input 
+								value="{Name}"
+								valueLiveUpdate="true"
+								liveChange=".onInputChange"/>
+						</cells>
+						<cells>
+							<Input 
+								value="{Symbol}"
+								valueLiveUpdate="true"
+								liveChange=".onInputChange"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+	</Panel>
+</mvc:View>

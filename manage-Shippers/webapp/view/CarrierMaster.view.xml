@@ -1,0 +1,102 @@
+<mvc:View
+	id="web.manage-Shippers.view.CarrierMaster"
+	controllerName="web.manage-Shippers.controller.CarrierMaster"
+	xmlns="sap.uxap"
+	xmlns:m="sap.m"
+	xmlns:f="sap.f"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:l="sap.ui.layout"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:dnd="sap.ui.core.dnd"
+	xmlns:control="transportation-execution.web.control">
+	<ObjectPageLayout
+		id="ObjectPageLayout"
+		showTitleInHeaderContent="true"
+		alwaysShowContentHeader="false"
+		preserveHeaderStateOnScroll="false"
+		headerContentPinnable="true"
+		isChildPage="true"
+		upperCaseAnchorBar="false">
+		<headerTitle>
+			<ObjectPageDynamicHeaderTitle>
+				<expandedHeading>
+					<m:FlexBox wrap="Wrap" fitContainer="true" alignItems="Center">
+						<m:FlexBox wrap="NoWrap" fitContainer="true" alignItems="Center" class="sapUiTinyMarginEnd">
+							<f:Avatar
+								src="sap-icon://shipping-status"
+								displaySize="S"
+								class="sapUiTinyMarginEnd">
+							</f:Avatar>
+							<m:Title  text="{Name}" wrapping="true" class="sapUiSmallMarginEnd"/>
+						</m:FlexBox>
+					</m:FlexBox>
+				</expandedHeading>
+
+				<snappedHeading>
+					<m:FlexBox wrap="Wrap" fitContainer="true" alignItems="Center">
+						<m:FlexBox wrap="NoWrap" fitContainer="true" alignItems="Center" class="sapUiTinyMarginEnd">
+							<f:Avatar
+								src="sap-icon://shipping-status"
+								displaySize="S"
+								class="sapUiTinyMarginEnd">
+							</f:Avatar>
+							<m:Title text="{Name}" wrapping="true" class="sapUiSmallMarginEnd"/>
+						</m:FlexBox>
+					</m:FlexBox>
+				</snappedHeading>
+				
+			</ObjectPageDynamicHeaderTitle>
+			
+		</headerTitle>
+		
+		
+		<sections id="objectPageSections">
+			
+			<ObjectPageSection id="CarrierMasterHeaderPageSection" title="{i18n>carrierMasterViewTitle}" >
+				<subSections>
+					<ObjectPageSubSection id="CarrierMasterHeaderPageSubSection">
+						<blocks>
+							<mvc:XMLView id="carrierMasterHeaderView" viewName="web.manage-Shippers.view.CarrierMasterHeader"/>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+			
+			<ObjectPageSection id="serviceList" title="{i18n>services}">
+				<subSections>
+					<ObjectPageSubSection id="serviceListPageSubSection">
+						<blocks>
+							<mvc:XMLView id="serviceListView" viewName="web.manage-Shippers.view.ServiceList"/>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+			
+			<ObjectPageSection id="documentList" title="{i18n>documents}">
+				<subSections>
+					<ObjectPageSubSection id="documentListPageSubSection">
+						<blocks>
+							<mvc:XMLView id="documentListView" viewName="web.manage-Shippers.view.DocumentList"/>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+			
+		</sections>
+		<footer>
+			<m:OverflowToolbar >
+				<m:Button
+					id="messagePopoverButton"
+					icon="sap-icon://message-popup"
+					type="Emphasized"
+					text="{= ${message>/}.length }"
+					visible="{= !!${message>/}.length }"
+					press=".onMessagesButtonPress"/>
+				<m:ToolbarSpacer id="_IDEGen_toolbarspacer0"/>
+				<m:Button id="saveButton" type="Emphasized" text="{i18n>saveButtonText}" press=".onSave"/>
+				<m:Button id="cancelButton" text="{i18n>cancelButtonText}" press=".onResetChanges"/>
+			</m:OverflowToolbar>
+		</footer>
+	</ObjectPageLayout>
+
+</mvc:View>
