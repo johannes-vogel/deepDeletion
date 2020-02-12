@@ -21,3 +21,6 @@ Content-Type: application/json
     }
     ]
 }
+
+### Delete Carrier
+DELETE http://localhost:3000/odata/v4/CatalogService/Carriers(1cec0ccb-ac08-46b9-b05b-7213df4b7e48)
